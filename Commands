@@ -1,0 +1,75 @@
+Step 1 - Set up Docker's apt repository -  Install Docker .
+
+ubuntu@ip-172-31-21-232:~$ # Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 2 - Install the Docker packages.
+
+ubuntu@ip-172-31-21-232:~$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 3 - Verify 
+
+ubuntu@ip-172-31-21-232:~$ docker
+---------------------------------------------------------------------------------------------------------------------------------
+ubuntu@ip-172-31-21-232:~$ docker create nginx:latest
+root@ip-172-31-21-232:~# docker start 4be
+root@ip-172-31-21-232:~# docker ps
+root@ip-172-31-21-232:~# docker ps -a
+root@ip-172-31-21-232:~# docker inspect 4be
+root@ip-172-31-21-232:~# docker pause 4be
+4be
+root@ip-172-31-21-232:~# docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
+4be1044d1a63   httpd:latest   "httpd-foreground"       12 minutes ago   Up 11 minutes (Paused)         80/tcp    angry_boyd
+
+---------------------------
+root@ip-172-31-21-232:~# docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
+4be1044d1a63   httpd:latest   "httpd-foreground"       13 minutes ago   Up 12 minutes                  80/tcp    angry_boyd
+------------
+root@ip-172-31-21-232:~# docker stop 4be
+4be
+root@ip-172-31-21-232:~# docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
+4be1044d1a63   httpd:latest   "httpd-foreground"       14 minutes ago   Exited (0) 7 seconds ago                 angry_boyd
+-------------------
+root@ip-172-31-21-232:~# docker rm 4be
+-------------------
+root@ip-172-31-21-232:~# docker kill 903
+903
+root@ip-172-31-21-232:~# docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                       PORTS     NAMES
+903645d90913   nginx:latest   "/docker-entrypoint.…"   16 minutes ago   Exited (137) 3 seconds ago             silly_gates
+-------------------------------
+root@ip-172-31-21-232:~# docker ps -qa
+903645d90913
+6edda2d8e26c
+decbc276173b
+-----------------------
+root@ip-172-31-21-232:~# docker ps -q
+---------------------
+root@ip-172-31-21-232:~# docker run -d -p 80:80 nginx:latest
+
+-----------------------------
+root@ip-172-31-21-232:~# docker rename 903 pooja
+root@ip-172-31-21-232:~# docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                                 NAMES
+31be69ad4e3d   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, [::]:80->80/tcp   magical_wilson
+903645d90913   nginx:latest   "/docker-entrypoint.…"   20 minutes ago       Up About a minute   80/tcp                                pooja
+------------------------------
+
