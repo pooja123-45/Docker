@@ -1,4 +1,4 @@
-Step 1 - Set up Docker's apt repository -  Install Docker .
+***Step 1 - Set up Docker's apt repository -  Install Docker.***
 
 ubuntu@ip-172-31-21-232:~$ # Add Docker's official GPG key:
 sudo apt-get update
@@ -16,60 +16,99 @@ sudo apt-get update
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Step 2 - Install the Docker packages.
+***Step 2 - Install the Docker packages.***
 
 ubuntu@ip-172-31-21-232:~$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Step 3 - Verify 
+***Step 3 - Verify***
 
 ubuntu@ip-172-31-21-232:~$ docker
 ---------------------------------------------------------------------------------------------------------------------------------
+
+Step 4 - This is used to create Container
+
 ubuntu@ip-172-31-21-232:~$ docker create nginx:latest
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 5- This is used to start Container
+
 root@ip-172-31-21-232:~# docker start 4be
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 6 - This is used to check all running containers
+
 root@ip-172-31-21-232:~# docker ps
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 7 - Used to see all containers it may be run state or stoped state.
+
 root@ip-172-31-21-232:~# docker ps -a
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 8 - Used to check the details of containers
+
 root@ip-172-31-21-232:~# docker inspect 4be
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 9 - Use to pause the running container
+
 root@ip-172-31-21-232:~# docker pause 4be
 4be
 root@ip-172-31-21-232:~# docker ps -a
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
 4be1044d1a63   httpd:latest   "httpd-foreground"       12 minutes ago   Up 11 minutes (Paused)         80/tcp    angry_boyd
 
----------------------------
-root@ip-172-31-21-232:~# docker ps -a
-CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
-4be1044d1a63   httpd:latest   "httpd-foreground"       13 minutes ago   Up 12 minutes                  80/tcp    angry_boyd
-------------
+---------------------------------------------------------------------------------------------------------------------------------
+Step 10- Used to stop the container
+
 root@ip-172-31-21-232:~# docker stop 4be
 4be
 root@ip-172-31-21-232:~# docker ps -a
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                         PORTS     NAMES
 4be1044d1a63   httpd:latest   "httpd-foreground"       14 minutes ago   Exited (0) 7 seconds ago                 angry_boyd
--------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 11 - Used to remove the container
+
 root@ip-172-31-21-232:~# docker rm 4be
--------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 12- Used to kill container 
+
 root@ip-172-31-21-232:~# docker kill 903
 903
 root@ip-172-31-21-232:~# docker ps -a
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                       PORTS     NAMES
 903645d90913   nginx:latest   "/docker-entrypoint.…"   16 minutes ago   Exited (137) 3 seconds ago             silly_gates
--------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 13 - Used to see all kind of container ID it may be stop or start.
+
 root@ip-172-31-21-232:~# docker ps -qa
 903645d90913
 6edda2d8e26c
 decbc276173b
------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 14- Use to see only running containers id.
+
 root@ip-172-31-21-232:~# docker ps -q
----------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 15 - Port mapping- 
+
 root@ip-172-31-21-232:~# docker run -d -p 80:80 nginx:latest
 
------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+Step 16 - Use to remane the containers
+
 root@ip-172-31-21-232:~# docker rename 903 pooja
 root@ip-172-31-21-232:~# docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                                 NAMES
 31be69ad4e3d   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, [::]:80->80/tcp   magical_wilson
 903645d90913   nginx:latest   "/docker-entrypoint.…"   20 minutes ago       Up About a minute   80/tcp                                pooja
-------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
 
