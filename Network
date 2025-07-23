@@ -1,1 +1,62 @@
+Step 1 - Install docker on system
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Step 2- Use to see all network
+
+root@ip-172-31-35-146:~# docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+6bf1bfaac342   bridge    bridge    local
+8537b6d40a90   host      host      local
+336df8ffb631   none      null      local
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 3 - Used to create own bridge network
+
+root@ip-172-31-35-146:~# docker network create --subnet "192.168.0.0/16" --driver bridge mynetwork
+ba1c4998b58a928757068c1d9b30017484439b1915ba7e3f2c20ded541b1cebb
+root@ip-172-31-35-146:~# docker network ls
+NETWORK ID     NAME        DRIVER    SCOPE
+6bf1bfaac342   bridge      bridge    local
+8537b6d40a90   host        host      local
+ba1c4998b58a   mynetwork   bridge    local
+336df8ffb631   none        null      local
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 4 - Create container from your own IP 
+
+root@ip-172-31-35-146:~# docker run -d -p --network mynetwork nginx
+
+root@ip-172-31-35-146:~# docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+9133cb598ca3   nginx     "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:32768->80/tcp, [::]:32768->80/tcp   charming_tesla
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 5 - Used to check all ntwk info- 
+
+root@ip-172-31-35-146:~# docker inspect mynetwork/id
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 6 - Create Host Ntwk 
+
+root@ip-172-31-35-146:~# docker run -d -p 80:80 --network host httpd
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 7 - Create None Network
+
+root@ip-172-31-35-146:~# docker run -d -P --network none tomcat
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+root@ip-172-31-35-146:~# docker network ls
+NETWORK ID     NAME        DRIVER    SCOPE
+6bf1bfaac342   bridge      bridge    local
+8537b6d40a90   host        host      local
+ba1c4998b58a   mynetwork   bridge    local
+336df8ffb631   none        null      local
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
