@@ -1,1 +1,162 @@
+Step 1 - Firstly login to docker hub 
 
+root@ip-172-31-34-187:~# docker login
+
+USING WEB-BASED LOGIN
+
+i Info → To sign in with credentials on the command line, use 'docker login -u <username>'
+         
+
+Your one-time device confirmation code is: VQGP-KPNT
+Press ENTER to open your browser or submit your device code here: https://login.docker.com/activate
+
+Waiting for authentication in the browser…
+
+WARNING! Your credentials are stored unencrypted in '/root/.docker/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+Login Succeeded
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 2 - check images presest or not
+
+root@ip-172-31-34-187:~# docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 3 - Pull image form docker hub
+
+root@ip-172-31-34-187:~# docker pull nginx
+
+Using default tag: latest
+latest: Pulling from library/nginx
+59e22667830b: Pull complete 
+140da4f89dcb: Pull complete 
+96e47e70491e: Pull complete 
+2ef442a3816e: Pull complete 
+4b1e45a9989f: Pull complete 
+1d9f51194194: Pull complete 
+f30ffbee4c54: Pull complete 
+Digest: sha256:84ec966e61a8c7846f509da7eb081c55c1d56817448728924a87ab32f12a72fb
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+root@ip-172-31-34-187:~# docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+nginx        latest    2cd1d97f893f   8 days ago   192MB
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 4 - Use to change the tag of images
+
+root@ip-172-31-34-187:~# docker tag 2cd nginx:first
+
+root@ip-172-31-34-187:~# docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+nginx        first     2cd1d97f893f   8 days ago   192MB
+nginx        latest    2cd1d97f893f   8 days ago   192MB
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 5 - Use to make container from image.
+
+root@ip-172-31-34-187:~# docker run -d -P 2cd
+
+dd056bb51643a716d51e78e710cfb9310aea1dd281423b2c2cba4f5cd548c720
+root@ip-172-31-34-187:~# docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+dd056bb51643   2cd       "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:32768->80/tcp, [::]:32768->80/tcp   charming_dubinsky
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 6 - Now we will push image on docker hub for that we need to follow the format thatwhy first change the tag of image.
+
+root@ip-172-31-34-187:~# docker tag 2cd pooja6820/mynginx:v1
+root@ip-172-31-34-187:~# docker images
+REPOSITORY          TAG       IMAGE ID       CREATED      SIZE
+nginx               first     2cd1d97f893f   8 days ago   192MB
+nginx               latest    2cd1d97f893f   8 days ago   192MB
+pooja6820/mynginx   v1        2cd1d97f893f   8 days ago   192MB
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 7 - Now puch image in docker hub.
+
+root@ip-172-31-34-187:~# docker push pooja6820/mynginx:v1
+
+The push refers to repository [docker.io/pooja6820/mynginx]
+f17478b6e8f3: Mounted from library/nginx 
+0662742b23b2: Mounted from library/nginx 
+5c91a024d899: Mounted from library/nginx 
+6b1b97dc9285: Mounted from library/nginx 
+a6b19c3d00b1: Mounted from library/nginx 
+30837a0774b9: Mounted from library/nginx 
+7cc7fe68eff6: Mounted from library/nginx 
+v1: digest: sha256:c6185f1da234e4b891492e4c60e5b06093d327ed19a1b90318f4882160ffd0bd size: 1778
+root@ip-172-31-34-187:~# docker images
+REPOSITORY          TAG       IMAGE ID       CREATED      SIZE
+pooja6820/mynginx   v1        2cd1d97f893f   8 days ago   192MB
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 8 - Make a container from image.
+
+root@ip-172-31-34-187:~# docker run -d -P pooja6820/mynginx:v1
+a54d8bd6eeb405d1238246604ade7c8be95b24972984f2e1aac79acb9b6a4dab
+
+---------------------------------------------------------------------------------------------------------------------------------------
+root@ip-172-31-34-187:~# docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+a54d8bd6eeb4   pooja6820/mynginx:v1   "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:32769->80/tcp, [::]:32769->80/tcp   nifty_stonebraker
+dd056bb51643   2cd                    "/docker-entrypoint.…"   7 minutes ago   Up 7 minutes   0.0.0.0:32768->80/tcp, [::]:32768->80/tcp   charming_dubinsky
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 9 - Used to delete all unused images.
+
+root@ip-172-31-34-187:~# docker system prune
+docker: unknown command: docker syatem
+
+Run 'docker --help' for more information
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 10 - Used to see present images
+
+root@ip-172-31-34-187:~# docker images
+REPOSITORY          TAG       IMAGE ID       CREATED      SIZE
+pooja6820/mynginx   v1        2cd1d97f893f   8 days ago   192MB
+root@ip-172-31-34-187:~# docker ps
+
+---------------------------------------------------------------------------------------------------------------------------------------
+CONTAINER ID   IMAGE                  COMMAND                  CREATED              STATUS              PORTS                                       NAMES
+a54d8bd6eeb4   pooja6820/mynginx:v1   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:32769->80/tcp, [::]:32769->80/tcp   nifty_stonebraker
+dd056bb51643   2cd                    "/docker-entrypoint.…"   9 minutes ago        Up 9 minutes        0.0.0.0:32768->80/tcp, [::]:32768->80/tcp   charming_dubinsky
+root@ip-172-31-34-187:~# docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+a54d8bd6eeb4   pooja6820/mynginx:v1   "/docker-entrypoint.…"   2 minutes ago    Up 2 minutes    0.0.0.0:32769->80/tcp, [::]:32769->80/tcp   nifty_stonebraker
+dd056bb51643   2cd                    "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   0.0.0.0:32768->80/tcp, [::]:32768->80/tcp   charming_dubinsky
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 11 - Used to take backup of containes.
+
+root@ip-172-31-34-187:~# docker commit a54
+sha256:d086d4a951e09658567260f8d1e5e541bc5843f682915bd47e42139cd9776aaf
+---------------------------------------------------------------------------------------------------------------------------------------
+
+root@ip-172-31-34-187:~# ls
+firstbackup:tar  snap
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Step 12- Used to remove images.
+
+root@ip-172-31-34-187:~# docker rmi nginx
+root@ip-172-31-34-187:~# docker rmi nginx:first
+Untagged: nginx:first
+Untagged: nginx@sha256:84ec966e61a8c7846f509da7eb081c55c1d56817448728924a87ab32f12a72fb
+
+----------------------------------------------------------------------------------------------------------------------------------------
