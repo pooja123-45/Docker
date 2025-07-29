@@ -1,6 +1,4 @@
 services:
     myfirstfile:
       build: .
-      port:
-         - "80:80"
       container_name: mycontainer
